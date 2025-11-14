@@ -1,6 +1,5 @@
 package ma.emsi.nyazi.Test1;
 
-import com.sun.jna.Memory;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentParser;
 import dev.langchain4j.data.document.DocumentSplitter;

@@ -42,7 +42,7 @@ public class RagNaif2{
         packageLogger.addHandler(handler);
     }
 
-    public static void main(String[] args) throws  Exception {
+    public static void main(String[] args){
         String cle= System.getenv("GEMINI_KEY");
         ChatModel modele = GoogleAiGeminiChatModel
                 .builder()
