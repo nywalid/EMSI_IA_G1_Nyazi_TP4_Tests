@@ -32,38 +32,38 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-class QueryRouterPourEviterRag implements QueryRouter {
-
-    private final ChatModel modele;
-    private final ContentRetriever contentRetriever;
-
-    public QueryRouterPourEviterRag(ChatModel modele, ContentRetriever contentRetriever) {
-        this.modele = modele;
-        this.contentRetriever = contentRetriever;
-    }
-
-    @Override
-    public List<ContentRetriever> route(Query query) {
-
-        String question =
-                "Est-ce que la requête '" + query.text()
-                        + "' porte sur l'IA ? Réponds seulement par"
-                        + " 'oui', 'non', ou 'peut-être'.";
-
-        String reponse = modele.chat(question);
-
-
-        if (reponse.toLowerCase().contains("non")) {
-            return Collections.emptyList();
-        } else {
-            return Collections.singletonList(contentRetriever);
-        }
-    }
-}
-
 public class RagNaif4 {
         public static void main(String[] args) {
 
+            class QueryRouterPourEviterRag implements QueryRouter {
+
+                private final ChatModel modele;
+                private final ContentRetriever contentRetriever;
+
+                public QueryRouterPourEviterRag(ChatModel modele, ContentRetriever contentRetriever) {
+                    this.modele = modele;
+                    this.contentRetriever = contentRetriever;
+                }
+
+                @Override
+                public List<ContentRetriever> route(Query query) {
+
+                    String question =
+                            "Est-ce que la requête '" + query.text()
+                                    + "' porte sur l'IA ? Réponds seulement par"
+                                    + " 'oui', 'non', ou 'peut-être'.";
+
+                    String reponse = modele.chat(question);
+
+                    System.out.println(">>> Décision du LM : " + reponse);
+
+                    if (reponse.toLowerCase().contains("non")) {
+                        return Collections.emptyList();
+                    } else {
+                        return Collections.singletonList(contentRetriever);
+                    }
+                }
+            }
             String cle = System.getenv("GEMINI_KEY");
             ChatModel modele = GoogleAiGeminiChatModel
                     .builder()
